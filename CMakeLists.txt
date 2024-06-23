@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Set the project name and version
-project(MyCompilerProject VERSION 1.0)
+project(Eventer VERSION 0.0.1)
 
 # Specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -18,7 +18,7 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 include_directories(${LLVM_INCLUDE_DIRS} include)
 
 # Use file(GLOB) to collect all .cpp files in src directory, excluding main.cpp
-file(GLOB SRC_FILES "src/*.cpp")
+file(GLOB_RECURSE SRC_FILES "src/*.cpp")
 
 # Add the main.cpp file explicitly
 set(MAIN_FILE "main.cpp")
