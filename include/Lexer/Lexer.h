@@ -1,7 +1,9 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include <iostream>
 #include <string>
+#include <vector>
 
 enum class TokenType { Identifier, Equals, Value, EndOfFile, Unknown };
 

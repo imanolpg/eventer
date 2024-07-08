@@ -36,3 +36,7 @@
 
 # Output files
 build
+
+# CLion stuff
+cmake-build-debug
+.idea

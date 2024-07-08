@@ -1,9 +1,5 @@
 #include "Lexer/Lexer.h"
 
-#include <iostream>
-#include <string>
-#include <vector>
-
 std::string tokenTypeToString(TokenType type) {
   switch (type) {
   case TokenType::Identifier:

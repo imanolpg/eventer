@@ -1,9 +1,10 @@
 #include "Compiler.h"
 
-int main(int argc, char **argv) {
+int main() {
   Compiler compiler;
-  std::string program = R"(x     = 5
-                         y=3)";
+  const std::string program = R"(x=5
+  y=3
+  m=8)";
 
   // Compile the program and export it.
   compiler.compile(program);
