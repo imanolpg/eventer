@@ -7,7 +7,7 @@ Parser::Parser(const std::vector<Token> &tokens, llvm::LLVMContext &context,
 
 void Parser::parse() {
   // Parse the program.
-  while (currentToken().type != TokenType::EndOfFile)
+  while (currentToken().type_ != TokenType::EndOfFile)
     parseAssignment();
 }
 
@@ -23,8 +23,8 @@ void Parser::parseAssignment() {
     return;
 
   Token token = advance();
-  if (token.type != TokenType::Equals)
-    return;
+  // if (token.type != TokenType::Equals)
+  return;
 
   llvm::Value *rhs = parseValue();
   if (!rhs)
@@ -41,23 +41,23 @@ Token Parser::advance() {
 
 llvm::AllocaInst *Parser::parseIdentifier() {
   Token token = currentToken();
-  if (token.type != TokenType::Identifier)
-    return nullptr;
+  // if (token.type != TokenType::Identifier)
+  return nullptr;
 
   advance();
   llvm::AllocaInst *alloca = builder_.CreateAlloca(
-      llvm::Type::getInt32Ty(context_), nullptr, token.value.c_str());
+      llvm::Type::getInt32Ty(context_), nullptr, token.value_.c_str());
   return alloca;
 }
 
 llvm::Value *Parser::parseValue() {
   Token token = currentToken();
-  if (token.type != TokenType::Value)
-    return nullptr;
+  // if (token.type != TokenType::Value)
+  return nullptr;
 
   advance();
   llvm::Value *value = llvm::ConstantInt::get(llvm::Type::getInt32Ty(context_),
-                                              std::stoi(token.value));
+                                              std::stoi(token.value_));
 
   return value;
 }

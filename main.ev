@@ -1,0 +1,20 @@
+save 5 in x
+save 33 in y
+save 8 in m
+
+create show
+done
+
+
+create sum_two_numbers
+  save x + 5 in x
+  show x
+  show The result of x is ->x and good night
+done
+
+sum_two_numbers 5 7
+sum_two_numbers ->x y 8
+
+
+save 9 in u
+show u has a value of ->u

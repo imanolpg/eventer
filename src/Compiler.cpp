@@ -1,4 +1,13 @@
 #include "Compiler.h"
+#include "Lexer/Lexer.h"
+#include "Lexer/Token.h"
+#include "Parser/Parser.h"
+
+#include "llvm/IR/GlobalValue.h"
+
+#include <iostream>
+#include <sstream>
+#include <vector>
 
 Compiler::Compiler()
     : context(std::make_unique<llvm::LLVMContext>()),
@@ -7,7 +16,7 @@ Compiler::Compiler()
   setupVariables();
 }
 
-void Compiler::compile(const std::string &program) {
+void Compiler::compile(const std::string &program) const {
 
   // ---------------------------------------------------------------
   // Show the program to be compiled.
@@ -41,18 +50,16 @@ void Compiler::compile(const std::string &program) {
     std::cout << t.toString() << std::endl;
   std::cout << std::endl;
 
-
   // ---------------------------------------------------------------
   // Parse the tokens (Parser).
   auto parser = Parser(tokens, *context, *module, *builder);
   parser.parse();
 
-
   // ---------------------------------------------------------------
   // Get global variable.
   llvm::GlobalVariable *systemStatus = module->getNamedGlobal("systemStatus");
-  llvm::Value *systemStatusValue = builder->CreateLoad(systemStatus->getValueType(), systemStatus, "systemStatusValue");
-
+  llvm::Value *systemStatusValue = builder->CreateLoad(
+      systemStatus->getValueType(), systemStatus, "systemStatusValue");
 
   builder->CreateRet(systemStatusValue);
   std::cout << "Generation LLVM IR:" << std::endl;
@@ -68,14 +75,11 @@ void Compiler::saveModuleToFile(const std::string &fileName) const {
   std::cout << "File exported: " << fileName << std::endl;
 }
 
-
-void Compiler::setupVariables() {
-  // Install "systemStatus" vairable.
+void Compiler::setupVariables() const {
+  // Install "systemStatus" variable.
   new llvm::GlobalVariable(
-    *module, llvm::Type::getInt32Ty(*context), false,
-    llvm::GlobalVariable::ExternalLinkage,
-    llvm::ConstantInt::get(llvm::Type::getInt32Ty(*context), 0),
-    "systemStatus");
-
+      *module, llvm::Type::getInt32Ty(*context), false,
+      llvm::GlobalVariable::ExternalLinkage,
+      llvm::ConstantInt::get(llvm::Type::getInt32Ty(*context), 0),
+      "systemStatus");
 }
-
